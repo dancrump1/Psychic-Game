@@ -27,18 +27,10 @@ alert("Guess a letter to start the game!")
 
 //winning needs to increase wins by 1, display what the computer guessed, and reset the userGuesses array
 function winning() {
+    alert("You guessed the correct letter! It was: " + computerGuess)
     winsCounter++;
     winsText.textContent = "wins: " + winsCounter;
-    computerChoiceText.textContent = "The computer chose: " + computerGuess;
-    guessesCounter = 9;
-    guessesText.textContent = "Guesses remaining: " + guessesCounter;
-    userGuesses.length = 0
-    userGuesses.textContent = "You chose: ";
-
-    //Computer chooses from array
-    computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-    console.log(computerGuess)
-    return 0;
+    resetJS();
 }
 
 //Guessing wrong needs to decrease guessesCounter by one and change the displayed number of guesses remaining
@@ -52,13 +44,16 @@ function losing() {
     alert("You didn't guess the letter I was thinking of! HAHA");
     lossesCounter++;
     lossesText.textContent = "losses: " + lossesCounter;
+    resetJS();
+    return 0;
+}
+function resetJS() {
+    guessesCounter = 9;
+    guessesText.textContent = "Guesses remaining: " + guessesCounter;
+    userGuesses = [];
+    userChoiceText.textContent = "You chose: " + userGuesses;
     computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
     console.log(computerGuess)
-    guessesCounter = 9
-    guessesText.textContent = "Guesses remaining: " + guessesCounter;
-    userGuesses.length = 0;
-    userChoiceText.textContent = "You chose: " + userGuesses;
-    return 0;
 }
 
 // Runs whenever the user presses a key. 
@@ -67,20 +62,19 @@ document.onkeyup = function (event) {
     // Stores key input. Must be after .onkeyup handler
     var userGuess = event.key;
 
-    //stores user guesses in an array
-    userGuesses.push(userGuess);
-    //displays user entries
-    userChoiceText.textContent = "You chose: " + userGuesses;
-    computerChoiceText.textContent = "The computer chose: ";
+        //stores user guesses in an array
+        userGuesses.push(userGuess);
+        //displays user entries
+        userChoiceText.textContent = "You chose: " + userGuesses;
 
-    // If userguess is computerGuess, wins increases by one
-    if (userGuess == computerGuess) {
-        winning();
-    }
-    else if (guessesCounter === 1) {
-        losing();
-    }
-    else {
-        guessWrong();
-    }
-}
+        // If userguess is computerGuess, wins increases by one
+        if (userGuess == computerGuess) {
+            winning();
+        }
+        else if (guessesCounter === 1) {
+            losing();
+        }
+        else {
+            guessWrong();
+        }
+    };
